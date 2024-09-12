@@ -34,12 +34,14 @@ function resetGame() {
 // **************************************
 
 // the list of enemies is an array of size 5 - but it could be larger ...
-const enemies = new StaticArray(5); 
+// const enemies = new StaticArray(5); 
+let firstEnemy = null
 
 function createInitialEnemies() {
  // create five enemies
   for (let i = 0; i < 5; i++) {
-    enemies[i] = spawnNewEnemy();
+    // enemies[i] = 
+    spawnNewEnemy();
   }
 }
 
@@ -47,6 +49,16 @@ function createInitialEnemies() {
 function spawnNewEnemy() {
   const enemy = createEnemy();
   // TODO: need to add new enemy to list of enemies, here!
+  console.log("spawnNewEnemy");
+
+  if (firstEnemy == null) {
+    firstEnemy = enemy;
+  } else {
+    enemy.next = firstEnemy;
+    firstEnemy = enemy;
+  }
+
+
   
   return enemy;
 }
@@ -54,7 +66,15 @@ function spawnNewEnemy() {
 // removes an enemy object from the list of enemies
 function removeEnemy(enemy) {
   // TODO: need to find enemy object in list of enemies, and remove it
-  
+  // if enemy == firstEnemy {
+  //   firstEnemy = enemy.next;
+  // } else {
+  //   let current = firstEnemy;
+  //   while (current.next != enemy) {
+  //     current = current.next;
+  //   }
+  //   current.next = enemy.next;
+  // }
 }
 
 // returns the number of enemy objects in the list of enemies
@@ -165,7 +185,9 @@ function loop() {
   // ****
   // Loop through all enemies - and move them until the reach the bottom
   // ****
-  for (const enemy of enemies) {
+  let enemy = firstEnemy;
+
+  while(enemy) {
     // TODO: Only look at actual enemy objects from the list ...
 
     // ignore enemies who are dying or crashing - so they don't move any further
@@ -176,6 +198,7 @@ function loop() {
         enemyHitBottom(enemy);
       }
     }
+    enemy = enemy.next;
   }
 
   // Check for game over
@@ -193,9 +216,11 @@ function loop() {
   // ****
   // Loop through all enemies - and update their visuals
   // ****
-  for (const enemy of enemies) {
+  enemy = firstEnemy;
+  while(enemy) {
     // TODO: Only do this for actual enemy objects from the list ...
     displayEnemy(enemy);
+    enemy = enemy.next;
   }
 
   // update health display
