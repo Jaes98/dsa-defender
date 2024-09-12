@@ -1,4 +1,5 @@
 import StaticArray from "./StaticArray.js";
+import SinglyLinkedList from "./singlyLinkedList.js";
 
 window.addEventListener("load", start);
 
@@ -35,7 +36,7 @@ function resetGame() {
 
 // the list of enemies is an array of size 5 - but it could be larger ...
 // const enemies = new StaticArray(5); 
-let firstEnemy = null
+const enemies = new SinglyLinkedList();
 
 function createInitialEnemies() {
  // create five enemies
@@ -51,12 +52,7 @@ function spawnNewEnemy() {
   // TODO: need to add new enemy to list of enemies, here!
   console.log("spawnNewEnemy");
 
-  if (firstEnemy == null) {
-    firstEnemy = enemy;
-  } else {
-    enemy.next = firstEnemy;
-    firstEnemy = enemy;
-  }
+  enemies.add(enemy);
 
 
   
@@ -185,7 +181,7 @@ function loop() {
   // ****
   // Loop through all enemies - and move them until the reach the bottom
   // ****
-  let enemy = firstEnemy;
+  // let enemy = firstEnemy;
 
   while(enemy) {
     // TODO: Only look at actual enemy objects from the list ...
